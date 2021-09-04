@@ -15,9 +15,15 @@ Here is how you get started tracking who you can pass it to next.
 3. Run the standup.py file with Python. 
  
 ## Usage
- 
-The list of employees to be displayed can be changed in the constants.py file. Currently, the window will accomodate up to 16 employees. 
- 
+
+Upon running the program, no employees will be selected and all their names will be grayed out. Check the 'Attending' box for those employees in attendance. This will then make their name selectable. If you click on a selectable name, it will add '- HOST' to their name, indicating they are the one leading the meeting. Only one host can be selected at a time. You can click a chosen host again to deselect them, or if you uncheck the 'Attending' box, the host role will be removed. 
+
+Addtionally, when you check that someone is attending, their name will be displayed in red. Once you check the box for 'To present', their name will be displayed in green, indicating that the have spoken, and the 'To present' box will change to 'Done'. This is also able to be toggled. 
+
+To close the program, simply click the 'X' in the corner of the window.
+
+The list of employees to be displayed can be changed in the constants.py file. Currently, the window will accomodate up to 16 employees.
+
 ## Contributing
  
 1. Fork it!
