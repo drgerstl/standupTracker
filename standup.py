@@ -207,7 +207,7 @@ def showEmployee(Employee, start, col):
 def makeWidgets(view, row, col):
     """ Draws the GUI """
     # Set title for main window
-    view.winfo_toplevel().title('Standup Tracker')
+    view.winfo_toplevel().title(const.TITLE)
 
     # Create Employee list 
     for name in const.EMPLOYEES:

@@ -3,6 +3,7 @@ EMPLOYEES = [
     'Sneha', 'Srikanth', 'Tim', 'Vimal', 'Viplav',
     ]
 
+TITLE = 'Who\'s Left?'
 ATTENDING = 'Attending'
 TO_PRESENT = 'To present'
 PRESENTED = 'Done'

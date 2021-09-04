@@ -12,7 +12,7 @@ Here is how you get started tracking who you can pass it to next.
  
 1. Place all of the files in a single folder. 
 2. To customize the list of names displayed or to change the GUI settings, edit the constants.py file.
-3. Run the standupTracker.py file with Python. 
+3. Run the standup.py file with Python. 
  
 ## Usage
  
