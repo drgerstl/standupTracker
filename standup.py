@@ -5,6 +5,11 @@ from tkinter.messagebox import showinfo
 from typing import Tuple
 import constants as const
 
+"""
+
+
+"""
+
 # Global Variables
 top = tk.Tk()
 employeeList = []
@@ -14,8 +19,8 @@ hostAssigned = False
 
 """ Create main view to allow changing the title on the frame """
 class Main(Frame):
-    def __init__(self,parent=None):
-        Frame.__init__(self,parent)
+    def __init__(self, parent=None):
+        Frame.__init__(self, parent)
         self.parent = parent
 
 """ 
@@ -38,13 +43,13 @@ class Employee:
         self.label.bind('<Button-1>', self.checkLabel)
         
         self.checkBtnAttending = tk.Checkbutton(
-            view, text= const.ATTENDING, command=self.checkAttending,
-            variable= self.attendingBtnVal, onvalue= ON, offvalue= OFF, 
-            height= const.BTN_HEIGHT, width= const.BTN_WIDTH)
+            view, text=const.ATTENDING, command=self.checkAttending,
+            variable=self.attendingBtnVal, onvalue=ON, offvalue=OFF, 
+            height=const.BTN_HEIGHT, width=const.BTN_WIDTH)
 
         self.checkBtnPresented = tk.Checkbutton(
-            view, text= const.TO_PRESENT, command=self.checkPresented, 
-            state= DISABLED, variable= self.presentedBtnVal, onvalue= ON, 
+            view, text=const.TO_PRESENT, command=self.checkPresented, 
+            state=DISABLED, variable=self.presentedBtnVal, onvalue=ON, 
             offvalue= OFF, height= const.BTN_HEIGHT, width= const.BTN_WIDTH)
 
         # Set employee name as label text    
