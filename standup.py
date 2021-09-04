@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+A simple GUI program used to display and track who is attending stand up 
+meetings as well as who has presented already. 
+"""
 from tkinter import *
 import tkinter as tk
 import tkinter.font as tkFont
@@ -5,10 +10,12 @@ from tkinter.messagebox import showinfo
 from typing import Tuple
 import constants as const
 
-"""
-
-
-"""
+__author__ = "Dan Gerstl"
+__copyright__ = "Copyright 2021, Dan Gerstl, All rights reserved"
+__credits__ = ["Dan Gerstl",]
+__version__ = "1.1"
+__maintainer__ = "Dan Gerstl"
+__email__ = "drgerstl@gmail.com"
 
 # Global Variables
 top = tk.Tk()
@@ -17,19 +24,17 @@ row = 0
 col = 0
 hostAssigned = False
 
-""" Create main view to allow changing the title on the frame """
 class Main(Frame):
     def __init__(self, parent=None):
+        """ Create main view to allow changing the title on the frame """
         Frame.__init__(self, parent)
         self.parent = parent
 
-""" 
-Employee:
-Class that contains the employee name and associated buttons and label.
-"""
 class Employee:
     def __init__(self, name, view):
-
+        """ 
+        Class that contains the employee name and associated buttons and label.
+        """
         # Component variables
         self.attendingBtnVal = IntVar()
         self.presentedBtnVal = IntVar()
@@ -55,12 +60,12 @@ class Employee:
         # Set employee name as label text    
         self.lblText.set(self.name)
 
-    """
-    checkLabel:
-    Toggles whether or not the HOST label is displayed on an Employee's label.
-    """
     def checkLabel(self, event):
-
+        """
+        Toggles whether or not the HOST label is displayed on an Employee's 
+        label.
+        """
+        # Global Variables
         global hostAssigned
 
         if (self.label['state'] == const.ENABLED and not hostAssigned):
@@ -69,15 +74,14 @@ class Employee:
         elif (self.label['state'] == const.ENABLED and hostAssigned):
             if const.HOST in self.lblText.get():
                 self.lblText.set(self.name)
-                hostAssigned = False
-    
-    """ 
-    checkAttending:
-    Function is fired on checking the attendance checkbutton and updates GUI 
-    based on value.
-    """
-    def checkAttending(self):
+                hostAssigned = False  
 
+    def checkAttending(self):
+        """ 
+        Function is fired on checking the attendance checkbutton and updates GUI 
+        based on value.
+        """
+        # Global Variables
         global hostAssigned
 
         # Box goes from unchecked -> checked
@@ -109,12 +113,11 @@ class Employee:
                 self.lblText.set(self.name)
                 hostAssigned = False
 
-    """
-    checkPresented:
-    Function is fired on checking the presented checkbutton and updates GUI 
-    based on value.
-    """
     def checkPresented(self):
+        """
+        Function is fired on checking the presented checkbutton and updates GUI 
+        based on value.
+        """
         if (self.checkBtnPresented['text'] == const.TO_PRESENT):
             self.checkBtnPresented['text'] = const.PRESENTED
             self.label.config(fg= 'limegreen')
@@ -122,12 +125,8 @@ class Employee:
             self.checkBtnPresented['text'] = const.TO_PRESENT
             self.label.config(fg= 'red')
 
-""" 
-showEmployee:
-Used to display the Employee class components on GUI.
-"""
 def showEmployee(Employee, start, col):
-
+    """ Used to display the Employee class components on GUI """
     # Set starting row and add label
     row = start
     Employee.label.grid(row=row, column=col, padx=const.LBL_PAD_X, 
@@ -205,12 +204,8 @@ def showEmployee(Employee, start, col):
 #     Employee.checkBtnPresented.grid(row=row, column=col, padx=BTN_PAD_X)
 #     row = start
 
-"""
-makeWidgets:
-Draws the GUI
-"""
 def makeWidgets(view, row, col):
-
+    """ Draws the GUI """
     # Set title for main window
     view.winfo_toplevel().title('Standup Tracker')
 

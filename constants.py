@@ -1,6 +1,6 @@
 EMPLOYEES = [
-    'Dan', 'Harish', 'Jagan', 'Manjula', 'Nikhil', 'Prathap', \
-    'Shubham', 'Siva', 'Sneha', 'Srikanth', 'Tim', 'Vimal', 'Viplav',
+    'Dan', 'Harish', 'Jagan', 'Manjula', 'Nikhil', 'Prathap', 'Shubham', 'Siva',
+    'Sneha', 'Srikanth', 'Tim', 'Vimal', 'Viplav',
     ]
 
 ATTENDING = 'Attending'
