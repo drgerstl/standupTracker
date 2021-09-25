@@ -45,22 +45,22 @@ class Employee:
         self.label = Label(view, textvariable=self.lblText, relief=FLAT, 
                            font=const.FONT, state=DISABLED)
         
-        self.label.bind('<Button-1>', self.checkLabel)
+        self.label.bind('<Button-1>', self.toggleLabel)
         
         self.checkBtnAttending = tk.Checkbutton(
-            view, text=const.ATTENDING, command=self.checkAttending,
+            view, text=const.ATTENDING, command=self.toggleAttending,
             variable=self.attendingBtnVal, onvalue=ON, offvalue=OFF, 
             height=const.BTN_HEIGHT, width=const.BTN_WIDTH)
 
         self.checkBtnPresented = tk.Checkbutton(
-            view, text=const.TO_PRESENT, command=self.checkPresented, 
+            view, text=const.TO_PRESENT, command=self.togglePresented, 
             state=DISABLED, variable=self.presentedBtnVal, onvalue=ON, 
             offvalue= OFF, height= const.BTN_HEIGHT, width= const.BTN_WIDTH)
 
         # Set employee name as label text    
         self.lblText.set(self.name)
 
-    def checkLabel(self, event):
+    def toggleLabel(self, event):
         """
         Toggles whether or not the HOST label is displayed on an Employee's 
         label.
@@ -76,7 +76,7 @@ class Employee:
                 self.lblText.set(self.name)
                 hostAssigned = False  
 
-    def checkAttending(self):
+    def toggleAttending(self):
         """ 
         Function is fired on checking the attendance checkbutton and updates GUI 
         based on value.
@@ -90,40 +90,26 @@ class Employee:
             # Enable presented checkbox
             self.checkBtnPresented['state'] = const.ENABLED   
             
-            # Enable label and set color to red
+            # Enable label and set color for attending
             self.label['state'] = const.ENABLED               
-            self.label.config(fg= 'red')
+            self.label.config(fg= const.ATTENDING_COLOR)
 
             # Change cursor to indicate its clickable
             self.label['cursor'] = 'hand2'              
         else: # Box goes from checked -> unchecked
+            clearEmployee(self)
 
-            # Reset attending checkbutton
-            self.checkBtnAttending['text'] = const.ATTENDING  
-
-            # Reset presented checkbutton
-            self.presentedBtnVal.set(OFF)
-            self.checkBtnPresented['text'] = const.TO_PRESENT
-            self.checkBtnPresented['state'] = DISABLED
-
-            # Disable employee label
-            self.label['state'] = DISABLED
-            self.label['cursor'] = 'arrow'
-            if const.HOST in self.lblText.get():
-                self.lblText.set(self.name)
-                hostAssigned = False
-
-    def checkPresented(self):
+    def togglePresented(self):
         """
         Function is fired on checking the presented checkbutton and updates GUI 
         based on value.
         """
         if (self.checkBtnPresented['text'] == const.TO_PRESENT):
             self.checkBtnPresented['text'] = const.PRESENTED
-            self.label.config(fg= 'limegreen')
+            self.label.config(fg= const.PRESENTED_COLOR)
         else:
             self.checkBtnPresented['text'] = const.TO_PRESENT
-            self.label.config(fg= 'red')
+            self.label.config(fg= const.ATTENDING_COLOR)
 
 def showEmployee(Employee, start, col):
     """ Used to display the Employee class components on GUI """
@@ -145,10 +131,38 @@ def showEmployee(Employee, start, col):
     Employee.checkBtnPresented.grid(row=row, column=col, padx=const.BOX_PAD_X)
 
     # Move row back to start for next employee
-    row = start        
+    row = start
+
+
+def clearEmployee(Employee):
+    """ Clears the GUI components associated with an employee """
+    # Global Variables
+    global hostAssigned
+
+    # Reset attending checkbutton
+    Employee.attendingBtnVal.set(OFF)
+    Employee.checkBtnAttending['text'] = const.ATTENDING  
+
+    # Reset presented checkbutton
+    Employee.presentedBtnVal.set(OFF)
+    Employee.checkBtnPresented['text'] = const.TO_PRESENT
+    Employee.checkBtnPresented['state'] = DISABLED
+
+    # Disable employee label
+    Employee.label['state'] = DISABLED
+    Employee.label['cursor'] = 'arrow'
+    if const.HOST in Employee.lblText.get():
+        Employee.lblText.set(Employee.name)
+        hostAssigned = False
+
+def clearAll(employeeList):
+    """ Clears the GUI components associated with all employees """
+    for employee in employeeList:
+        clearEmployee(employee)
+
 
 """ These methods are for using a button instead of a checkbox """
-
+#region
 # class Employee:
 #     def __init__(self, name, view):
 
@@ -160,16 +174,16 @@ def showEmployee(Employee, start, col):
 #         #-- Class Variables--#
 #         self.name = name
 #         self.label = Label(view, textvariable=lblText, relief=FLAT, font=FONT)
-#         self.checkBtnAttending = tk.Button(view, text= ATTENDING, command= self.checkAttending, \
+#         self.checkBtnAttending = tk.Button(view, text= ATTENDING, command= self.toggleAttending, \
 #                                            height= BTN_HEIGHT, width= BTN_WIDTH)
 
-#         self.checkBtnPresented = tk.Button(view, text= PRESENTED, command= self.checkPresented, \
+#         self.checkBtnPresented = tk.Button(view, text= PRESENTED, command= self.togglePresented, \
 #                                            height= BTN_HEIGHT, width= BTN_WIDTH, state='disabled')
 
 #         #-- Set label name --#        
 #         lblText.set(self.name)
     
-#     def checkAttending(self):
+#     def toggleAttending(self):
 #     # label.config(text='TED')
 #     # tk.messagebox.showinfo(title=checkboxVar.get(), message=checkboxVar.get())
 #     # if (checkboxVar == 'ON'):
@@ -183,7 +197,7 @@ def showEmployee(Employee, start, col):
         
         
 
-#     def checkPresented(self):
+#     def togglePresented(self):
 #         if (self.checkBtnPresented['text'] == PRESENTED):
 #             self.checkBtnPresented['text'] = 'Done'
 #         else:
@@ -202,18 +216,22 @@ def showEmployee(Employee, start, col):
 #     Employee.checkBtnAttending.grid(row=row, column=col, padx=BTN_PAD_X)
 #     row += 1
 #     Employee.checkBtnPresented.grid(row=row, column=col, padx=BTN_PAD_X)
-#     row = start
+#     row = start 
+
+#endregion
 
 def makeWidgets(view, row, col):
     """ Draws the GUI """
     # Set title for main window
     view.winfo_toplevel().title(const.TITLE)
 
-    # Create Employee list 
+    # Create Employee list
+    sortedEmployees = const.EMPLOYEES
+    sortedEmployees.sort()
     for name in const.EMPLOYEES:
         employeeList.append(Employee(name, top))
 
-    # Add components to top view 
+    # Add Employees to top view 
     for employee in employeeList:
         showEmployee(employee, row, col)
 
@@ -223,13 +241,27 @@ def makeWidgets(view, row, col):
             col = 0
             row += 4
 
+def addUtilityButtons(row, col):
+    # Add Clear button  
+    btnClear = tk.Button(
+        top,height=const.BTN_HEIGHT, width=const.BTN_WIDTH, 
+        text="Clear", command=lambda:clearAll(employeeList))
+
+    btnClear.grid(row=row, column=col, padx=const.BTN_PAD_X, pady=(10,0))
+
 main = Main(top)
+
+# Add utility buttons to top 
+addUtilityButtons(row, col)
+
+# Move the starting position to add widgets
+row += 1
 
 # Add widgets to main view
 makeWidgets(main, row, col)
 
 # Set window size and disable resizing
-# top.geometry(WINDOW_SIZE)
+top.geometry(const.WINDOW_SIZE)
 top.resizable(False, False)
 
 # Set no host
