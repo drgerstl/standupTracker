@@ -86,16 +86,16 @@ class Employee:
 
         # Box goes from unchecked -> checked
         if (self.attendingBtnVal.get() == ON):         
+            markAttending(self)
+            # # Enable presented checkbox
+            # self.checkBtnPresented['state'] = const.ENABLED   
             
-            # Enable presented checkbox
-            self.checkBtnPresented['state'] = const.ENABLED   
-            
-            # Enable label and set color for attending
-            self.label['state'] = const.ENABLED               
-            self.label.config(fg= const.ATTENDING_COLOR)
+            # # Enable label and set color for attending
+            # self.label['state'] = const.ENABLED               
+            # self.label.config(fg= const.ATTENDING_COLOR)
 
-            # Change cursor to indicate its clickable
-            self.label['cursor'] = 'hand2'              
+            # # Change cursor to indicate its clickable
+            # self.label['cursor'] = 'hand2'              
         else: # Box goes from checked -> unchecked
             clearEmployee(self)
 
@@ -159,6 +159,26 @@ def clearAll(employeeList):
     """ Clears the GUI components associated with all employees """
     for employee in employeeList:
         clearEmployee(employee)
+
+def markAttending(Employee):
+    """ Marks an Employee as attending """
+    # Ensure checkbox value is set to checked
+    Employee.attendingBtnVal.set(ON)
+
+    # Enable presented checkbox
+    Employee.checkBtnPresented['state'] = const.ENABLED   
+    
+    # Enable label and set color for attending
+    Employee.label['state'] = const.ENABLED               
+    Employee.label.config(fg= const.ATTENDING_COLOR)
+
+    # Change cursor to indicate its clickable
+    Employee.label['cursor'] = 'hand2'  
+
+def markAllAttending(employeeList):
+    """ Marks all Employees as attending """
+    for employee in employeeList:
+        markAttending(employee)
 
 
 """ These methods are for using a button instead of a checkbox """
@@ -241,24 +261,38 @@ def makeWidgets(view, row, col):
             col = 0
             row += 4
 
+    return row
+
 def addUtilityButtons(row, col):
+    """ Adds utility buttons to the top of the window """
+    # Add All Attending button
+    btnAllAttending = tk.Button(
+        top,height=const.BTN_HEIGHT, width=const.BTN_WIDTH, 
+        text="All Attending", command=lambda:markAllAttending(employeeList))
+
+    btnAllAttending.grid(row=row, column=col, padx=const.BTN_PAD_X, 
+                         pady=const.UTILITY_BTN_PAD_Y)
+
+    col += 1
+
     # Add Clear button  
     btnClear = tk.Button(
         top,height=const.BTN_HEIGHT, width=const.BTN_WIDTH, 
         text="Clear", command=lambda:clearAll(employeeList))
 
-    btnClear.grid(row=row, column=col, padx=const.BTN_PAD_X, pady=(10,0))
+    btnClear.grid(row=row, column=col, padx=const.BTN_PAD_X, 
+                  pady=const.UTILITY_BTN_PAD_Y)
 
 main = Main(top)
 
-# Add utility buttons to top 
-addUtilityButtons(row, col)
-
-# Move the starting position to add widgets
-row += 1
-
 # Add widgets to main view
-makeWidgets(main, row, col)
+row = makeWidgets(main, row, col)
+
+# Move the starting position to add utility buttons
+row += 3
+
+# Add utility buttons to bottom 
+addUtilityButtons(row, col)
 
 # Set window size and disable resizing
 top.geometry(const.WINDOW_SIZE)
