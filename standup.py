@@ -23,6 +23,8 @@ employeeList = []
 row = 0
 col = 0
 hostAssigned = False
+attendingCount = 0
+lblCount = StringVar()
 
 class Main(Frame):
     def __init__(self, parent=None):
@@ -86,16 +88,7 @@ class Employee:
 
         # Box goes from unchecked -> checked
         if (self.attendingBtnVal.get() == ON):         
-            markAttending(self)
-            # # Enable presented checkbox
-            # self.checkBtnPresented['state'] = const.ENABLED   
-            
-            # # Enable label and set color for attending
-            # self.label['state'] = const.ENABLED               
-            # self.label.config(fg= const.ATTENDING_COLOR)
-
-            # # Change cursor to indicate its clickable
-            # self.label['cursor'] = 'hand2'              
+            markAttending(self)     
         else: # Box goes from checked -> unchecked
             clearEmployee(self)
 
@@ -138,6 +131,12 @@ def clearEmployee(Employee):
     """ Clears the GUI components associated with an employee """
     # Global Variables
     global hostAssigned
+    global attendingCount
+    global lblCount
+
+    # Decrement attendance counter and update label
+    attendingCount -= 1
+    lblCount.set(const.ATTENDING + ': ' + str(attendingCount))
 
     # Reset attending checkbutton
     Employee.attendingBtnVal.set(OFF)
@@ -156,12 +155,29 @@ def clearEmployee(Employee):
         hostAssigned = False
 
 def clearAll(employeeList):
+    # Global Variables
+    global attendingCount
+    global lblCount
+
     """ Clears the GUI components associated with all employees """
     for employee in employeeList:
         clearEmployee(employee)
 
+    # Reset attendance counter
+    attendingCount = 0
+    lblCount.set(const.ATTENDING + ': ' + str(attendingCount))
+
+
 def markAttending(Employee):
     """ Marks an Employee as attending """
+    # Global Variables
+    global attendingCount
+    global lblCount
+
+    # Increment attendance counter and update label
+    attendingCount += 1
+    lblCount.set(const.ATTENDING + ': ' + str(attendingCount))
+
     # Ensure checkbox value is set to checked
     Employee.attendingBtnVal.set(ON)
 
@@ -177,8 +193,17 @@ def markAttending(Employee):
 
 def markAllAttending(employeeList):
     """ Marks all Employees as attending """
+    # Global Variables
+    global attendingCount
+    global lblCount
+
     for employee in employeeList:
         markAttending(employee)
+    
+    # Set attendance counter to list size
+    attendingCount = len(employeeList)
+    lblCount.set(const.ATTENDING + ': ' + str(attendingCount))
+
 
 
 """ These methods are for using a button instead of a checkbox """
@@ -265,6 +290,10 @@ def makeWidgets(view, row, col):
 
 def addUtilityButtons(row, col):
     """ Adds utility buttons to the top of the window """
+    # Global Variables
+    global attendingCount
+    global lblCount
+
     # Add All Attending button
     btnAllAttending = tk.Button(
         top,height=const.BTN_HEIGHT, width=const.BTN_WIDTH, 
@@ -283,6 +312,15 @@ def addUtilityButtons(row, col):
     btnClear.grid(row=row, column=col, padx=const.BTN_PAD_X, 
                   pady=const.UTILITY_BTN_PAD_Y)
 
+    col += 1
+
+    # Add attendance counter
+    lblCount.set(const.ATTENDING + ': ' + str(attendingCount))
+    lblCounter = tk.Label(top, textvariable=lblCount, relief=FLAT, justify=LEFT,  
+                          anchor=W, font=const.FONT, width=const.BTN_WIDTH)
+    lblCounter.grid(row=row, column=col, padx=const.BTN_PAD_X, 
+                    pady=const.UTILITY_BTN_PAD_Y)                          
+
 main = Main(top)
 
 # Add widgets to main view
@@ -295,7 +333,7 @@ row += 3
 addUtilityButtons(row, col)
 
 # Set window size and disable resizing
-top.geometry(const.WINDOW_SIZE)
+# top.geometry(const.WINDOW_SIZE)
 top.resizable(False, False)
 
 # Set no host
