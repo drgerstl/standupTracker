@@ -5,6 +5,7 @@ Who's Left? is a tracking app for stand-ups. For those times when you can't reme
 - Who is leading the meeting
 - Who has yet to speak
 - Who has spoken
+- How many people are attending the meeting
  
 ## Installation
  
@@ -20,7 +21,12 @@ Upon running the program, no employees will be selected and all their names will
 
 Addtionally, when you check that someone is attending, their name will be displayed in red. Once you check the box for 'To present', their name will be displayed in green, indicating that the have spoken, and the 'To present' box will change to 'Done'. This is also able to be toggled. 
 
-To close the program, simply click the 'X' in the corner of the window.
+At the bottom you can click the 'All Attending' button to have every employee as marked in attendance. Conversely, you 
+can click the 'Clear' button to clear all checkboxes as well as the host label.
+
+In the bottom right corner is an attendance counter which displays the number of people marked as attending.
+
+To close the program, simply click the 'X' in the corner of the window or click the 'Exit' button.
 
 The list of employees to be displayed can be changed in the constants.py file. Currently, the window will accomodate up to 16 employees.
 
@@ -35,6 +41,7 @@ The list of employees to be displayed can be changed in the constants.py file. C
 ## History
  
 Version 1.1 (09-03-2021) - Moving constants into its own file and adding README
+Version 1.2 (09-24-2021) - Added utility buttons and attendance counter
  
 ## Credits
  

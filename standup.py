@@ -13,7 +13,7 @@ import constants as const
 __author__ = "Dan Gerstl"
 __copyright__ = "Copyright 2021, Dan Gerstl, All rights reserved"
 __credits__ = ["Dan Gerstl",]
-__version__ = "1.1"
+__version__ = "1.2"
 __maintainer__ = "Dan Gerstl"
 __email__ = "drgerstl@gmail.com"
 
@@ -204,6 +204,10 @@ def markAllAttending(employeeList):
     attendingCount = len(employeeList)
     lblCount.set(const.ATTENDING + ': ' + str(attendingCount))
 
+def exit():
+    """ Destroys the main window to exit the program """
+    top.destroy()
+
 
 
 """ These methods are for using a button instead of a checkbox """
@@ -301,7 +305,6 @@ def addUtilityButtons(row, col):
 
     btnAllAttending.grid(row=row, column=col, padx=const.BTN_PAD_X, 
                          pady=const.UTILITY_BTN_PAD_Y)
-
     col += 1
 
     # Add Clear button  
@@ -311,7 +314,15 @@ def addUtilityButtons(row, col):
 
     btnClear.grid(row=row, column=col, padx=const.BTN_PAD_X, 
                   pady=const.UTILITY_BTN_PAD_Y)
+    col += 1
 
+    # Add Exit button  
+    btnExit = tk.Button(
+        top,height=const.BTN_HEIGHT, width=const.BTN_WIDTH, 
+        text="Exit", command=exit)
+
+    btnExit.grid(row=row, column=col, padx=const.BTN_PAD_X, 
+                  pady=const.UTILITY_BTN_PAD_Y)
     col += 1
 
     # Add attendance counter
